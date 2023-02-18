@@ -10,39 +10,46 @@ class App extends Component {
         sobrenome: "Bill",
         email: "juca@juca",
         data: new Date(),
-        mensagem: "Tarrrdeeeee"
+        mensagem: "Tarrrdeeeee",
       },
       {
         nome: "Jeca",
         sobrenome: "Boy",
         email: "jeca@jeca",
         data: new Date(),
-        mensagem: "Tarrrdeeeee tambem"
+        mensagem: "Tarrrdeeeee tambem",
       },
       {
         nome: "Joca",
         sobrenome: "Bull",
         email: "joca@joca",
         data: new Date(),
-        mensagem: "Pro ces tambem"
+        mensagem: "Pro ces tambem",
       },
     ],
+    novoComentario: {
+      nome: "",
+      sobrenome: "",
+      email: "",
+      mensagem: "",
+    },
   };
 
-  adicionaComentario =()=>{
+  adicionarComentario = (evento) => {
+    evento.preventDefault();
 
-    const novoComentario = {
-        nome: 'Maria',
-        sobrenome: 'Luz',
-        email: 'maria@maria',
-        data: new Date(),
-        mensagem: 'Helllloooooo'
-    }
+    const novoComentario = {...this.state.novoComentario, data: new Date()}
 
     this.setState({
-        comentarios: [ ...this.state.comentarios, novoComentario]
-    })
+      comentarios: [...this.state.comentarios, novoComentario],
+      novoComentario: {nome: '', sobrenome: '', email: '', mensagem: ''}  
+    });
+  };
 
+  digitacao = evento => {
+    const {name, value} = evento.target;
+    this.setState({ 
+        novoComentario: {...this.state.novoComentario, [name]: value}})
   }
 
   render() {
@@ -52,7 +59,7 @@ class App extends Component {
 
         {this.state.comentarios.map((comentario, indice) => (
           <Comentario
-            key = {indice}
+            key={indice}
             nome={comentario.nome}
             sobrenome={comentario.sobrenome}
             email={comentario.email}
@@ -62,8 +69,48 @@ class App extends Component {
           </Comentario>
         ))}
 
-        <button onClick={this.adicionaComentario}>Adiciona Comentario</button>
+        <form method="post" onSubmit={this.adicionarComentario}>
+          <h2>Adicionar Comentário</h2>
+          <div>
+            <input 
+            type="text" 
+            name="nome" 
+            value={this.state.novoComentario.nome}
+            onChange={this.digitacao}
+            placeholder="Digite seu nome" 
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="sobrenome"
+              value={this.state.novoComentario.sobrenome}
+              onChange={this.digitacao}
+              placeholder="Digite seu sobrenome"
+            />
+          </div>
+          <div>
+            <input 
+            type="email" 
+            name="email" 
+            value={this.state.novoComentario.email}
+            onChange={this.digitacao}
+            placeholder="Digite seu email" 
+            />
+          </div>
+          {/* <div>
+                <input type="text" name = "none" placeholder="Digite seu nome" />
+            </div> */}
+          <div>
+            <textarea 
+            name="mensagem" 
+            value={this.state.novoComentario.mensagem}
+            onChange={this.digitacao}
+            rows="4" />
+          </div>
 
+          <button type="submit">Adiciona Comentario</button>
+        </form>
       </div>
     );
   }
