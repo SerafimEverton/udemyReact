@@ -9,7 +9,7 @@ class App extends Component {
         nome: "Juca",
         sobrenome: "Bill",
         email: "juca@juca",
-        data: new Date(),
+        data: new Date(2023, 1, 23, 10, 15, 0),
         mensagem: "Tarrrdeeeee",
       },
       {
